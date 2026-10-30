@@ -42,7 +42,9 @@ def cloud_stream(api_key, model, messages):
         data=json.dumps({'model': model, 'messages': messages, 'stream': True,
                          'temperature': 0.3, 'max_completion_tokens': 1024}).encode(),
         headers={'Authorization': 'Bearer ' + api_key,
-                 'Content-Type': 'application/json'},
+                 'Content-Type': 'application/json',
+                 'Accept': 'text/event-stream',
+                 'User-Agent': 'BayazAI/1.0'},
     )
     finished = False
     with urllib.request.urlopen(request, timeout=90) as response:
