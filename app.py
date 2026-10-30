@@ -65,6 +65,21 @@ def cloud_stream(api_key, model, messages):
         raise RuntimeError('The connection ended before the reply completed.')
 
 
+def failure_message(exc):
+    # Show useful diagnostics without exposing keys, headers or provider payloads.
+    if isinstance(exc, urllib.error.HTTPError):
+        return {
+            401: 'Groq rejected the API key. The owner needs to update GROQ_API_KEY in the app secrets.',
+            403: 'Groq denied access. The owner needs to check account and model permissions.',
+            404: 'The configured model or API endpoint is unavailable. The owner needs to check GROQ_MODEL.',
+            429: 'The free AI service usage limit has been reached. Please try again later.',
+            400: 'Groq rejected the model configuration or request. The owner needs to check the model and account limits.',
+        }.get(exc.code, f'The AI service returned HTTP {exc.code}. Please try again later.')
+    if isinstance(exc, urllib.error.URLError):
+        return 'The hosting server could not connect to Groq. Please try again later.'
+    return 'The reply was interrupted or empty. Please retry; if it continues, the owner should check the model settings.'
+
+
 def read_pdf(data):
     reader = PdfReader(BytesIO(data))
     if len(reader.pages) > 50:
@@ -201,9 +216,9 @@ if prompt and prompt.strip():
             st.write_stream(tokens())
             if not parts:
                 raise RuntimeError('Empty reply')
-        except Exception:
+        except Exception as exc:
             failed = True
-            parts.append('\n\n[Reply unavailable or interrupted. Please try again later.]')
+            parts.append('\n\n' + failure_message(exc))
             st.error('The AI service could not complete the reply. Please try again later.')
     st.session_state.history.extend([
         {'role':'user','content':prompt,'failed':failed},
