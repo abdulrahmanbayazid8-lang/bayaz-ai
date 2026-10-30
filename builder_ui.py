@@ -10,6 +10,7 @@ import zipfile
 
 import streamlit as st
 from builder_core import generate, generation_messages, preview_wrapper, friendly_error
+from studio_ui import brand, privacy, artwork
 
 st.set_page_config(page_title='Bayaz Studio — Build with AI',page_icon=':material/auto_awesome:',layout='wide')
 
@@ -95,8 +96,7 @@ except FileNotFoundError:
     api_key,model,daily_limit='','openai/gpt-oss-20b',40
 
 with st.sidebar:
-    st.title('Bayaz Studio')
-    st.caption('FROM IDEA TO WEBSITE')
+    brand()
     if st.button('New project',icon=':material/add:',width='stretch'):
         st.session_state.active_project=None
         st.session_state.brief_seed=''
@@ -112,7 +112,7 @@ with st.sidebar:
             st.session_state.active_project=identity
             st.rerun()
     st.space('large')
-    st.caption('Free model · usage limits apply')
+    st.badge('FREE WORKSPACE',color='violet',icon=':material/auto_awesome:')
     st.caption('Projects stay in this session. Download your code before leaving.')
     with st.expander('About your data'):
         st.write('Prompts and the current website code are sent to Groq. '
@@ -129,16 +129,16 @@ active=st.session_state.projects.get(st.session_state.active_project)
 if active is None:
     _,hero,_=st.columns([1,6,1])
     with hero:
-        st.space('large')
-        st.badge('YOUR IDEAS. YOUR WEBSITES.',icon=':material/auto_awesome:',color='blue')
-        st.title('What will you build today?')
-        st.markdown('Describe your idea. **Watch it become a website.**')
+        st.space('small')
+        st.badge('THE WEBSITE BUILDER',icon=':material/auto_awesome:',color='violet')
+        st.title('Start with an idea. :violet[Make it real.]')
+        st.markdown('Your next website starts with a conversation. **Tell us what you imagine.**')
         st.caption('Build a landing page, portfolio or interactive browser tool with AI.')
         with st.form('create_project'):
             brief=st.text_area('Describe your website',key='brief_seed',height=160,
                 placeholder='A beautiful portfolio for a photographer, with a gallery and warm earthy colors…',
                 max_chars=3000)
-            submitted=st.form_submit_button('Build my website',icon=':material/arrow_upward:',type='primary',disabled=not api_key)
+            submitted=st.form_submit_button('Build my website',icon=':material/auto_awesome:',type='primary',disabled=not api_key,width='stretch')
         if submitted:
             if not brief.strip():
                 st.warning('Describe the website you want to build first.')
@@ -158,7 +158,9 @@ if active is None:
             with col:
                 def choose(value=preset):
                     st.session_state.brief_seed=value
-                st.button(label,on_click=choose,width='stretch')
+                with st.container(border=True):
+                    st.image(artwork('Code helper' if label=='Interactive tool' else 'Writer' if label=='Portfolio' else 'AI chat'),width='stretch',alt=label+' starting point illustration')
+                    st.button(label,on_click=choose,width='stretch',icon=':material/arrow_outward:')
         st.space('large')
         cols=st.columns(3)
         for col,(title,description) in zip(cols,[('Describe','Start with a simple idea.'),('Refine','Ask for changes in plain English.'),('Make it yours','Preview and download your website.')]):

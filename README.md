@@ -1,5 +1,11 @@
 # Bayaz Studio
 
+## AI workspace
+
+The home page offers six focused assistants: general chat, writing, summarizing, translation, coding help and interview practice. Each tool uses its own instructions and conversation thread. Tone controls, ten translation languages, PDF/TXT source documents, prompt starters and conversation downloads are available. Sources and recent context are bounded to fit the free model. These assistants generate text; they do not browse, execute code, send emails or generate images. Long-document summaries use the opening excerpt and say so. Conversations are session-only, not saved across visits.
+
+The interface uses an original dark violet theme, native Streamlit components and original vector artwork.
+
 An AI website builder and chat application, built with Python, Streamlit and Groq.
 
 ## Website builder
