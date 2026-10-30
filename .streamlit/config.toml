@@ -6,16 +6,27 @@ enableXsrfProtection = true
 gatherUsageStats = false
 
 [theme]
-base = "light"
-primaryColor = "#2563EB"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F3F6FB"
-textColor = "#162033"
-font = "sans serif"
-baseRadius = "large"
+base = "dark"
+primaryColor = "#9F8AFF"
+backgroundColor = "#0B0D17"
+secondaryBackgroundColor = "#151827"
+textColor = "#ECEDF6"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+headingFont = "'Space Grotesk':https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"
+baseFontSize = 15
+headingFontSizes = ["52px", "30px", "21px", "18px", "16px", "14px"]
+headingFontWeights = [700, 600, 600, 600, 500, 500]
+baseRadius = "16px"
+buttonRadius = "10px"
 showWidgetBorder = true
 showSidebarBorder = true
+borderColor = "#2B3046"
+linkColor = "#BAA8FF"
+paddingTop = "2rem"
+paddingBottom = "3rem"
 
 [theme.sidebar]
-backgroundColor = "#F8FAFD"
-secondaryBackgroundColor = "#EDF2F9"
+backgroundColor = "#0F1220"
+secondaryBackgroundColor = "#1A1F32"
+textColor = "#DEE2F1"
+paddingTop = "1.5rem"
